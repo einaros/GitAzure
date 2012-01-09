@@ -4,7 +4,8 @@
   "description": "Github hook for node.js apps hosted in Microsoft Azure.",
   "version": "0.0.1",
   "bin": {
-    "gitazure": "./bin/gitazure"
+    "gitazure": "./bin/gitazure",
+    "testscript": "./bin/testscript.ps1"
   },
   "repository": {
     "type": "git",
