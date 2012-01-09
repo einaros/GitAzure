@@ -1,6 +1,6 @@
 var should = require('should')
   , http = require('http')
-  , GitAzure = require('../lib/gitazure')
+  , GitAzure = require('../')
   , port = 20000;
 
 function makeServer(port, cb) {
