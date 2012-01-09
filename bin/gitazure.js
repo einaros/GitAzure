@@ -1,68 +1,38 @@
 #!/usr/bin/env node
 
 var readline = require('readline')
-  , http = require('http')
-  , url = require('url')
-  , zlib = require('zlib');
+  , rl = readline.createInterface(process.stdin, process.stdout)
+  , util = require('util')
+  , spawn = require('child_process').spawn
+  , fs = require('fs');
 
-function download(uri, cb) {
-  var uri = url.parse(uri);
-  var options = {
-    host: uri.hostname,
-    port: uri.port||80,
-    path: uri.path
-  };
-  var buffers = [];
-  var totalSize = 0;
-  http.get(options, function(res) {
-    if (res.statusCode > 300 && res.statusCode < 304) {
-      var location = res.headers.location;
-      if (typeof location == 'undefined') {
-        cb(new Error('redirect missing location'));
-        return;
-      }
-      process.nextTick(function() { download(location, cb); });
-      return;
-    }
-    res.on('data', function(data) {
-      buffers.push(data);
-      totalSize += data.length;
-    });
-    res.on('end', function() {
-      var merged = new Buffer(totalSize);
-      var written = 0;
-      for (var i = 0, l = buffers.length; i < l; ++i) {
-        buffers[i].copy(merged, written);
-        written += buffers[i].length;
-      }
-      cb(null, merged);
-    });
-  }).on('error', function(e) {
-    cb(e);
+function copyFiles(src, dst, cb) {
+  var xcopy = spawn('xcopy', ['/s', src, dst]);
+  xcopy.stdout.on('data', function (data) {
+    console.log(data.toString('utf8'));
+  });
+  xcopy.stderr.on('data', function (data) {
+    console.log(data.toString('utf8'));
+  });
+  xcopy.on('exit', function (code) {
+    cb(code == 0);
   });
 }
 
-download('http://downloads.sourceforge.net/sevenzip/7za920.zip', function(error, buffer) {
-  if (error) {
-    console.error(error);
-    process.exit(-1);
-    return;
+function fileExists(path) {
+  try {
+    fs.statSync(path);
   }
-  /*zlib.unzip(buffer, function(error, buffer) {
-    if (error) {
-      console.error(error);
-      process.exit(-1);
-      return;
-    }
-    console.log(buffer.length);
-  });*/
-  require('fs').writeFileSync('out', buffer);
+  catch (e) { return false; }
+  return true;
+}
+
+/*if (!fileExists('../ServiceDefinition.csdef')) {
+  console.error('Please run GitAzure from within a node.js web role');
+  process.exit(-1);
+}*/
+
+copyFiles(__dirname + '/../deps/7z/7za.exe', '.', function(code) {
+  console.log(code);
 });
 
-/*
-var gzip = zlib.createGzip();
-var fs = require('fs');
-var inp = fs.createReadStream('input.txt');
-var out = fs.createWriteStream('input.txt.gz');
-inp.pipe(gzip).pipe(out);
-*/
