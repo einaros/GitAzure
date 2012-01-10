@@ -25,6 +25,6 @@ if (typeof deps == 'undefined') {
 
 var depKeys = Object.keys(deps);
 if (depKeys.indexOf('GitAzure') == -1) {
-  deps.GitAzure = 'latest';
+  deps.GitAzure = 'https://github.com/einaros/GitAzure/tarball/master';
   fs.writeFileSync('package.json', JSON.stringify(package, null, 2));
 }
