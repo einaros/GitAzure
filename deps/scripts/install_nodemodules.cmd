@@ -10,8 +10,7 @@ powershell -c "set-executionpolicy unrestricted"
 powershell .\download.ps1 "http://npmjs.org/dist/npm-1.1.0-beta-7.zip"
 
 7za x npm-1.1.0-beta-7.zip -y >> setup_npm_log.txt
-REM echo y| icacls .\ /grant "Network Service":f /t 1>> setup_git_log.txt 2>> setup_git_log_error.txt
-icacls .\ /grant "Network Service":(OI)(CI)W >> setup_npm_log.txt
+icacls .\ /grant "Network Service":(OI)(CI)F >> setup_npm_log.txt
 
 cd ..
 bin\npm install >> setup_npm_log.txt

@@ -15,7 +15,8 @@ powershell .\download.ps1 "http://msysgit.googlecode.com/files/PortableGit-1.7.8
 powershell .\appendPath.ps1 "%GITPATH%\bin" >> setup_git_log.txt
 
 7za x PortableGit-1.7.8-preview20111206.7z -y -o"%GITPATH%" >> setup_git_log.txt
-icacls "%GITPATH%" /grant "Network Service":(OI)(CI)W >> setup_git_log.txt
+icacls "%GITPATH%" /grant "Network Service":(OI)(CI)F >> setup_git_log.txt
+icacls ..\ /grant "Network Service":(OI)(CI)F >> setup_git_log.txt
 
 IISRESET  >> setup_git_log.txt 
 NET START W3SVC >> setup_git_log.txt 
