@@ -2,25 +2,23 @@ cd /d "%~dp0"
 
 if "%EMULATED%"=="true" exit /b 0
 
-echo LOG > setup_git_log.txt
-
 REM remove trailing slash if any
 IF %GITPATH:~-1%==\ SET GITPATH=%GITPATH:~0,-1%
 
+IF EXIST %GITPATH%\bin exit /b 0
+
+echo LOG > setup_git_log.txt
 echo GITPATH= %GITPATH% 1>> setup_git_log.txt
 
-if "%EMULATED%"=="true" exit /b 0
+powershell -c "set-executionpolicy unrestricted" >> setup_git_log.txt
+powershell .\download.ps1 "http://msysgit.googlecode.com/files/PortableGit-1.7.8-preview20111206.7z" >> setup_git_log.txt
+powershell .\appendPath.ps1 "%GITPATH%\bin" >> setup_git_log.txt
 
-powershell -c "set-executionpolicy unrestricted" 1>> setup_git_log.txt 2>> setup_git_log_error.txt
-powershell .\download.ps1 "http://msysgit.googlecode.com/files/PortableGit-1.7.8-preview20111206.7z" 1>> setup_git_log.txt 2>> setup_git_log_error.txt
-powershell .\appendPath.ps1 "%GITPATH%\bin" 1>> setup_git_log.txt 2>> setup_git_log_error.txt
+7za x PortableGit-1.7.8-preview20111206.7z -y -o"%GITPATH%" >> setup_git_log.txt
+icacls "%GITPATH%" /grant "Network Service":(OI)(CI)W >> setup_git_log.txt
 
-7za x PortableGit-1.7.8-preview20111206.7z -y -o"%GITPATH%" 1>> setup_git_log.txt 2>> setup_git_log_error.txt
-echo y| icacls "%GITPATH%" /grant "Network Service":f /t 1>> setup_git_log.txt 2>> setup_git_log_error.txt
-echo y| icacls ..\ /grant "Network Service":f /t 1>> setup_git_log.txt 2>> setup_git_log_error.txt
-
-IISRESET  1>> setup_git_log.txt 2>> setup_git_log_error.txt 
-NET START W3SVC 1>> setup_git_log.txt 2>> setup_git_log_error.txt 
+REM IISRESET  >> setup_git_log.txt 
+REM NET START W3SVC >> setup_git_log.txt 
 
 echo SUCCESS
 exit /b 0
