@@ -11,14 +11,25 @@ if ((test-path $dest\..\ServiceDefinition.csdef) -eq $false) {
 	exit -1
 }
 
+# Deploy dependencies
 copy-item -force "$source\..\deps\7z\7za.exe" "$dest\bin"
 copy-item -force -recurse "$source\..\deps\scripts\*" "$dest\bin"
 & "$dest\bin\update-csdef.ps1"
 
-write-host "Please manually update your package.json to include:"
-write-host "   ""dependencies"": { ""GitAzure"": ""latest"" }"
-write-host
-write-host "Then attach the GitAzure bootstrapper script such as:"
+# Update package.json
+if ((test-path $dest\package.json) -eq $false) {
+	npm init
+}
+node "$source\packageupdate.js"
+
+# Output howto
+if ((test-path $dest\.git) -eq $false) {
+	write-host "In order for the deployment to work, the current folder must be initialized as a git repository,"
+	write-host "which is pushed to Github. Please run 'git init' and 'git remote add ...' or similar to initialize"
+	write-host "the connection."
+	write-host 
+}
+write-host "Attach the GitAzure bootstrapper script in your server.js such as:"
 write-host 
 write-host "   require('gitazure').listen(server, 'https://github.com/username/Repo', 'branch');"
 write-host
@@ -29,5 +40,6 @@ write-host "   'branch' is the branch from which to expect updates"
 write-host 
 write-host "Next, add http://yourapp.cloudapp.net/githook to your Github repository's service hooks."
 write-host
-write-host "Finally add a fresh pair of id_rsa and id_rsa.pub to the bin\.ssh folder below this folder, and"
-write-host "ensure that the public key is included in your Github account if the repository is a private one."
+write-host "Finally if you're planning to use this with a private repo, add a fresh pair of id_rsa and"
+write-host "id_rsa.pub to the bin\.ssh folder below this folder, and ensure that the public key is"
+write-host "included in your Github account if the repository is a private one."
