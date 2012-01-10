@@ -54,7 +54,7 @@ else {
 		$repoUrl = read-host "Url"
 		if ($repoUrl -ne "") {
 			write-host $repoUrl
-			$ok = read-host "Is this ok? ([y]/n"
+			$ok = read-host "Is this ok? ([y]/n)"
 			if ($ok -ne "y" -and $ok -ne "") {
 				$repoUrl = ""
 			}
@@ -63,6 +63,7 @@ else {
 	& $git remote add origin $repoUrl
 	[io.file]::AppendAllText(".gitignore", "`nbin/`nnode_modules/`n", [text.encoding]::ascii)
 	
+	write-host
 	write-host "If the origin repo is a private one, or has been added with git@github.com:username/repo.git, you will"
 	write-host "need to put a valid pair of id_rsa and id_rsa.pub to .\bin\.ssh"
 	write-host
