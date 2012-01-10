@@ -74,7 +74,7 @@ describe('GitAzure', function() {
           ref: 'refs/heads/master'
         }
         var called = false;
-        hook.processPayload = function(payload, res) { called = true; res.end(); }
+        hook.processPayload = function(payload, branch, res) { called = true; res.end(); }
         request(port, '/githook', 'payload=' + encodeURIComponent(JSON.stringify(payload)), function (data) {
           srv.close();
           called.should.be.ok;
@@ -93,7 +93,7 @@ describe('GitAzure', function() {
           ref: 'refs/heads/azure'
         }
         var called = false;
-        hook.processPayload = function(payload, res) { called = true; res.end(); }
+        hook.processPayload = function(payload, branch, res) { called = true; res.end(); }
         request(port, '/githook', 'payload=' + encodeURIComponent(JSON.stringify(payload)), function (data) {
           srv.close();
           called.should.be.ok;
@@ -112,7 +112,7 @@ describe('GitAzure', function() {
           ref: 'refs/heads/master'
         }
         var called = false;
-        hook.processPayload = function(payload, res) { called = true; res.end(); }
+        hook.processPayload = function(payload, branch, res) { called = true; res.end(); }
         request(port, '/githook', 'payload=' + encodeURIComponent(JSON.stringify(payload)), function (data) {
           srv.close();
           called.should.not.be.ok;
@@ -131,7 +131,7 @@ describe('GitAzure', function() {
           ref: 'refs/heads/azure'
         }
         var called = false;
-        hook.processPayload = function(payload, res) { called = true; res.end(); }
+        hook.processPayload = function(payload, branch, res) { called = true; res.end(); }
         request(port, '/githook', 'payload=' + encodeURIComponent(JSON.stringify(payload)), function (data) {
           srv.close();
           called.should.not.be.ok;
