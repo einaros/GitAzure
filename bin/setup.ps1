@@ -49,14 +49,18 @@ if ((test-path $dest\.git) -eq $true) {
 	write-host "A git repository may already have been initialized in this folder."
 	write-host "Please ensure that a remote has been added (e.g. git remote add origin https://github.com/user/repo.git)."
 	write-host "If the origin repo is a private one, or has been added with git@github.com:username/repo.git, you will"
-	write-host "need to put a valid pair of id_rsa and id_rsa.pub to .\bin\.ssh"
+	write-host "need to put a valid pair of id_rsa and id_rsa.pub in .\bin\.ssh"
 	write-host
 	write-host "Also, seriously consider adding 'bin/' and 'node_modules' to your .gitignore file."
 }
 else {
 	& $git init
 
-	write-host "Please enter your github repository url (on the form git@github.com:username/Repo.git)"
+	write-host "Please enter your github repository url below"
+	write-host "Either on the form"
+	write-host "  A: git@github.com:username/repo.git, or "
+	write-host "  B: https://github.com/username/repo.git"
+	write-host "Note that (A) will require an id_rsa and id_rsa.pub pair in .\bin\.ssh"
 	$repoUrl = ""
 	while ($repoUrl -eq "") {
 		$repoUrl = read-host "Url"
