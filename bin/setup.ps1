@@ -77,16 +77,13 @@ else {
 	write-host
 }
 
-node "$source\configinit.js"
+# Output default config
 
-#write-host "Attach the GitAzure bootstrapper script in your server.js such as:"
-#write-host 
-#write-host "   require('gitazure').listen(server, 'https://github.com/username/Repo', 'branch');"
-#write-host
-#write-host "Where:"
-#write-host "   'server' is an instance of node's http server, express.js or similar"
-#write-host "   'https://github.com/username/Repo' is the repository to use"
-#write-host "   'branch' is the branch from which to expect updates"
-#write-host 
+node "$source\configinit.js"
+write-host "Check the gitazure.json configuration file in the current directory for configurable options."
+write-host
+
+# Final instructions
+
 write-host "Finally, add http://yourapp.cloudapp.net/githook to your Github repository's service hooks."
-#write-host
+write-host
