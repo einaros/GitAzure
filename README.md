@@ -2,6 +2,8 @@
 
 Github hook for node.js apps hosted in Microsoft Azure.
 
+A rather terribly cropped first screencast, of GitAzure used to publish updates from OS X to Azure, can be found at http://screencast.com/t/Dj4ilALj.
+
 ## Creating a node.js application from scratch, hosted in Azure, source-controlled by Github. ##
 
 This documentation is currently aimed at those with some prior Azure knowledge. That will change.
