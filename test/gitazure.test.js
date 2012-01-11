@@ -85,26 +85,7 @@ describe('GitAzure', function() {
 
     it('processes requests to hook url, matching the repository url and custom branch', function(done) {
       var srv = makeServer(++port, function() {
-        var hook = GitAzure.listen(srv, 'https://github.com/einaros/Test', 'azure');
-        var payload = {
-          repository: {
-            url: 'https://github.com/einaros/Test'
-          },
-          ref: 'refs/heads/azure'
-        }
-        var called = false;
-        hook.processPayload = function(payload, res) { called = true; res.end(); }
-        request(port, '/githook', 'payload=' + encodeURIComponent(JSON.stringify(payload)), function (data) {
-          srv.close();
-          called.should.be.ok;
-          done();
-        })
-      });
-    });
-
-    it('processes requests to hook url, matching the repository url and custom branch', function(done) {
-      var srv = makeServer(++port, function() {
-        var hook = GitAzure.listen(srv, 'https://github.com/einaros/Test', 'azure');
+        var hook = GitAzure.listen(srv, { repoUrl: 'https://github.com/einaros/Test', branch: 'azure' });
         var payload = {
           repository: {
             url: 'https://github.com/einaros/Test'
@@ -123,7 +104,7 @@ describe('GitAzure', function() {
 
     it('does not process requests to hook url, matching the repository url but missing custom branch', function(done) {
       var srv = makeServer(++port, function() {
-        var hook = GitAzure.listen(srv, 'https://github.com/einaros/Test', 'azure');
+        var hook = GitAzure.listen(srv, { repoUrl: 'https://github.com/einaros/Test', branch: 'azure' });
         var payload = {
           repository: {
             url: 'https://github.com/einaros/Test'
@@ -142,7 +123,7 @@ describe('GitAzure', function() {
 
     it('does not process requests to hook url, matching the branch but missing respository url', function(done) {
       var srv = makeServer(++port, function() {
-        var hook = GitAzure.listen(srv, 'https://github.com/einaros/Test', 'azure');
+        var hook = GitAzure.listen(srv, { repoUrl: 'https://github.com/einaros/Test', branch: 'azure' });
         var payload = {
           repository: {
             url: 'https://github.com/einaros/Test2'
