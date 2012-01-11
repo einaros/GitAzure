@@ -15,12 +15,11 @@ Step by step creating an application:
   5. `Add-AzureNodeWebRole`
   6. `cd WebRole1`
   7. `Enable-AzureRemoteDesktop`
-  8. `gitazure.cmd`
-  9. Follow the instructions.
-  10. As noted, put a valid Github id_rsa and id_rsa.pub keypair in WebRole1\bin\.ssh, e.g. by copying pre-existing from $env:USERPROFILE\\.ssh
-  11. In git bash within the WebRole1 folder, do `git commit -am 'initial'` then `git push -u origin master`
-  12. `Publish-AzureService`; this will take roughly 10 minutes.
-  13. Add http://yoursite.cloudapp.com/githook to the service hooks of your github repository.
+  8. `gitazure.cmd`; follow the instructions.
+  9. As noted, put a valid Github id_rsa and id_rsa.pub keypair in WebRole1\bin\.ssh, e.g. by copying pre-existing from $env:USERPROFILE\\.ssh
+  10. In git bash within the WebRole1 folder, do `git commit -am 'initial'` then `git push -u origin master`
+  11. `Publish-AzureService`; this will take roughly 10 minutes.
+  12. Add http://yoursite.cloudapp.com/githook to the service hooks of your github repository.
 
 At this point you should be able to make changes to the code in the repository, and publish updates to your Azure application by pushing to Github. That includes writing code on other platforms than Windows.
 
