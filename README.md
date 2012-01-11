@@ -10,7 +10,7 @@ Step by step creating an application:
 
   1. Unless you already have git for Windows, install msysgit from http://code.google.com/p/msysgit/downloads/detail?name=Git-1.7.8-preview20111206.exe&can=2&q=
   2. Install node.js from http://nodejs.org
-  3. `npm install -g https://github.com/einaros/GitAzure/tarball/master`
+  3. `npm install -g GitAzure`
   4. `New-AzureService servicename`
   5. `Add-AzureNodeWebRole`
   6. `cd WebRole1`
