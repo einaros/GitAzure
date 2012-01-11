@@ -30,7 +30,7 @@ if ((test-path $dest\..\ServiceDefinition.csdef) -eq $false) {
 
 copy-item -force "$source\..\deps\7z\7za.exe" "$dest\bin"
 copy-item -force -recurse "$source\..\deps\scripts\*" "$dest\bin"
-& "$source\update-csdef.ps1"
+$null = & "$source\update-csdef.ps1"
 
 # Update package.json
 
@@ -41,7 +41,7 @@ node "$source\packageupdate.js"
 
 # Update web.config
 
-& "$source\update-webconfig.ps1"
+$null = & "$source\update-webconfig.ps1"
 
 # Deal with git
 
@@ -77,7 +77,7 @@ else {
 	write-host
 }
 
-
+node "$source\configinit.js"
 
 #write-host "Attach the GitAzure bootstrapper script in your server.js such as:"
 #write-host 
