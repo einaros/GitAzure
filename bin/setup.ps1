@@ -30,7 +30,7 @@ if ((test-path $dest\..\ServiceDefinition.csdef) -eq $false) {
 
 copy-item -force "$source\..\deps\7z\7za.exe" "$dest\bin"
 copy-item -force -recurse "$source\..\deps\scripts\*" "$dest\bin"
-& "$dest\bin\update-csdef.ps1"
+& "$source\update-csdef.ps1"
 
 # Update package.json
 
@@ -41,23 +41,7 @@ node "$source\packageupdate.js"
 
 # Update web.config
 
-[xml]$xml = Get-Content "Web.cloud.config"
-function getXmlNode($str) {
-	$docfrag = $xml.CreateDocumentFragment()
-	$docfrag.InnerXml = $str
-	return $docfrag
-}
-if ($xml.SelectNodes("//system.webServer/handlers/add[@name='iisnodeGitAzure']").Count -le 0) {
-	$node = $xml.SelectSingleNode("//system.webServer/handlers")
-	$node.AppendChild((getXmlNode("<add name=""iisnodeGitAzure"" verb=""*"" modules=""iisnode"" />")))
-}
-if ($xml.SelectNodes("//rewrite/rules/rule[@name='GitAzure']").Count -le 0) {
-	$node = $xml.SelectSingleNode("//rewrite/rules")
-	$clearNode = $xml.SelectSingleNode("//rewrite/rules/clear")
-	$node.InsertAfter((getXmlNode("<rule name=""GitAzure"" enabled=""true"" patternSyntax=""ECMAScript"" stopProcessing=""true""><match url=""githook"" /><conditions logicalGrouping=""MatchAll"" trackAllCaptures=""false"" /><action type=""Rewrite"" url=""node_modules/GitAzure/server.js"" /></rule>
-")), $clearNode)
-}
-$xml.Save((Get-Location).Path + "\Web.cloud.config")
+& "$source\update-webconfig.ps1"
 
 # Deal with git
 
@@ -92,6 +76,8 @@ else {
 	write-host "need to put a valid pair of id_rsa and id_rsa.pub to .\bin\.ssh"
 	write-host
 }
+
+
 
 #write-host "Attach the GitAzure bootstrapper script in your server.js such as:"
 #write-host 
