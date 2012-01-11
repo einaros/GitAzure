@@ -2,7 +2,7 @@
 
 Github hook for node.js apps hosted in Microsoft Azure.
 
-## Creating a node.js application from scratch, hosted in Azure, sourcecontrolled by Github. ##
+## Creating a node.js application from scratch, hosted in Azure, source-controlled by Github. ##
 
 This documentation is currently aimed at those with some prior Azure knowledge. That will change.
 
