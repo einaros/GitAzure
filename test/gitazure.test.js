@@ -64,9 +64,9 @@ describe('GitAzure', function() {
       });
     });
 
-    it('processes requests to hook url, matching the repository url and branch', function(done) {
+    it('processes requests to hook url, without any parameters', function(done) {
       var srv = makeServer(++port, function() {
-        var hook = GitAzure.listen(srv, 'https://github.com/einaros/Test');
+        var hook = GitAzure.listen(srv);
         var payload = {
           repository: {
             url: 'https://github.com/einaros/Test'
@@ -74,7 +74,7 @@ describe('GitAzure', function() {
           ref: 'refs/heads/master'
         }
         var called = false;
-        hook.processPayload = function(payload, branch, res) { called = true; res.end(); }
+        hook.processPayload = function(payload, res) { called = true; res.end(); }
         request(port, '/githook', 'payload=' + encodeURIComponent(JSON.stringify(payload)), function (data) {
           srv.close();
           called.should.be.ok;
@@ -93,7 +93,26 @@ describe('GitAzure', function() {
           ref: 'refs/heads/azure'
         }
         var called = false;
-        hook.processPayload = function(payload, branch, res) { called = true; res.end(); }
+        hook.processPayload = function(payload, res) { called = true; res.end(); }
+        request(port, '/githook', 'payload=' + encodeURIComponent(JSON.stringify(payload)), function (data) {
+          srv.close();
+          called.should.be.ok;
+          done();
+        })
+      });
+    });
+
+    it('processes requests to hook url, matching the repository url and custom branch', function(done) {
+      var srv = makeServer(++port, function() {
+        var hook = GitAzure.listen(srv, 'https://github.com/einaros/Test', 'azure');
+        var payload = {
+          repository: {
+            url: 'https://github.com/einaros/Test'
+          },
+          ref: 'refs/heads/azure'
+        }
+        var called = false;
+        hook.processPayload = function(payload, res) { called = true; res.end(); }
         request(port, '/githook', 'payload=' + encodeURIComponent(JSON.stringify(payload)), function (data) {
           srv.close();
           called.should.be.ok;
@@ -112,7 +131,7 @@ describe('GitAzure', function() {
           ref: 'refs/heads/master'
         }
         var called = false;
-        hook.processPayload = function(payload, branch, res) { called = true; res.end(); }
+        hook.processPayload = function(payload, res) { called = true; res.end(); }
         request(port, '/githook', 'payload=' + encodeURIComponent(JSON.stringify(payload)), function (data) {
           srv.close();
           called.should.not.be.ok;
@@ -131,7 +150,7 @@ describe('GitAzure', function() {
           ref: 'refs/heads/azure'
         }
         var called = false;
-        hook.processPayload = function(payload, branch, res) { called = true; res.end(); }
+        hook.processPayload = function(payload, res) { called = true; res.end(); }
         request(port, '/githook', 'payload=' + encodeURIComponent(JSON.stringify(payload)), function (data) {
           srv.close();
           called.should.not.be.ok;
