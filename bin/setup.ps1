@@ -27,15 +27,39 @@ if ((test-path $dest\..\ServiceDefinition.csdef) -eq $false) {
 }
 
 # Deploy dependencies
+
 copy-item -force "$source\..\deps\7z\7za.exe" "$dest\bin"
 copy-item -force -recurse "$source\..\deps\scripts\*" "$dest\bin"
 & "$dest\bin\update-csdef.ps1"
 
 # Update package.json
+
 if ((test-path $dest\package.json) -eq $false) {
 	npm init
 }
 node "$source\packageupdate.js"
+
+# Update web.config
+
+[xml]$xml = Get-Content "Web.cloud.config"
+function getXmlNode($str) {
+	$docfrag = $xml.CreateDocumentFragment()
+	$docfrag.InnerXml = $str
+	return $docfrag
+}
+if ($xml.SelectNodes("//system.webServer/handlers/add[@name='iisnodeGitAzure']").Count -le 0) {
+	$node = $xml.SelectSingleNode("//system.webServer/handlers")
+	$node.AppendChild((getXmlNode("<add name=""iisnodeGitAzure"" verb=""*"" modules=""iisnode"" />")))
+}
+if ($xml.SelectNodes("//rewrite/rules/rule[@name='GitAzure']").Count -le 0) {
+	$node = $xml.SelectSingleNode("//rewrite/rules")
+	$clearNode = $xml.SelectSingleNode("//rewrite/rules/clear")
+	$node.InsertAfter((getXmlNode("<rule name=""GitAzure"" enabled=""true"" patternSyntax=""ECMAScript"" stopProcessing=""true""><match url=""githook"" /><conditions logicalGrouping=""MatchAll"" trackAllCaptures=""false"" /><action type=""Rewrite"" url=""node_modules/GitAzure/server.js"" /></rule>
+")), $clearNode)
+}
+$xml.Save((Get-Location).Path + "\Web.cloud.config")
+
+# Deal with git
 
 if ((test-path $dest\.git) -eq $true) {
 	write-host "A git repository may already have been initialized in this folder."
@@ -69,14 +93,14 @@ else {
 	write-host
 }
 
-write-host "Attach the GitAzure bootstrapper script in your server.js such as:"
-write-host 
-write-host "   require('gitazure').listen(server, 'https://github.com/username/Repo', 'branch');"
-write-host
-write-host "Where:"
-write-host "   'server' is an instance of node's http server, express.js or similar"
-write-host "   'https://github.com/username/Repo' is the repository to use"
-write-host "   'branch' is the branch from which to expect updates"
-write-host 
+#write-host "Attach the GitAzure bootstrapper script in your server.js such as:"
+#write-host 
+#write-host "   require('gitazure').listen(server, 'https://github.com/username/Repo', 'branch');"
+#write-host
+#write-host "Where:"
+#write-host "   'server' is an instance of node's http server, express.js or similar"
+#write-host "   'https://github.com/username/Repo' is the repository to use"
+#write-host "   'branch' is the branch from which to expect updates"
+#write-host 
 write-host "Finally, add http://yourapp.cloudapp.net/githook to your Github repository's service hooks."
-write-host
+#write-host
