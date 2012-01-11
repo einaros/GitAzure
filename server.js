@@ -4,7 +4,7 @@ var http = require('http')
 
 var server = http.createServer(function (req, res) {
     res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('');
+    res.end(__dirname);
 }).listen(port);
 
 var config = null;
