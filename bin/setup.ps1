@@ -74,6 +74,8 @@ else {
 	}
 	& $git remote add origin $repoUrl
 	[io.file]::AppendAllText(".gitignore", "`nbin/`nnode_modules/`n", [text.encoding]::ascii)
+	& $git add .
+	& $git commit -am 'initial import'
 	
 	write-host
 	write-host "If the origin repo is a private one, or has been added with git@github.com:username/repo.git, you will"
