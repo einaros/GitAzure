@@ -43,6 +43,12 @@ node "$source\packageupdate.js"
 
 $null = & "$source\update-webconfig.ps1"
 
+# Output default config
+
+node "$source\configinit.js"
+write-host "Check the gitazure.json configuration file in the current directory for configurable options."
+write-host
+
 # Deal with git
 
 if ((test-path $dest\.git) -eq $true) {
@@ -56,11 +62,7 @@ if ((test-path $dest\.git) -eq $true) {
 else {
 	& $git init
 
-	write-host "Please enter your github repository url below"
-	write-host "Either on the form"
-	write-host "  A: git@github.com:username/repo.git, or "
-	write-host "  B: https://github.com/username/repo.git"
-	write-host "Note that (A) will require an id_rsa and id_rsa.pub pair in .\bin\.ssh"
+	write-host "Please enter your github repository url below (on the form git@github.com:username/repo.git)"
 	$repoUrl = ""
 	while ($repoUrl -eq "") {
 		$repoUrl = read-host "Url"
@@ -74,20 +76,14 @@ else {
 	}
 	& $git remote add origin $repoUrl
 	[io.file]::AppendAllText(".gitignore", "`nbin/`nnode_modules/`n", [text.encoding]::ascii)
-	& $git add .
-	& $git commit -am 'initial import'
+	$null = & $git add .
+	$null = & $git commit -am 'initial import'
 	
 	write-host
-	write-host "If the origin repo is a private one, or has been added with git@github.com:username/repo.git, you will"
-	write-host "need to put a valid pair of id_rsa and id_rsa.pub to .\bin\.ssh"
+	write-host "To finalize git setup, please put a valid pair of id_rsa and id_rsa.pub in .\bin\.ssh"
+  write-host "The public file must be authorized in your Github account, so you can e.g. use the pre-existing files from ${env:USERPROFILE}\.ssh"
 	write-host
 }
-
-# Output default config
-
-node "$source\configinit.js"
-write-host "Check the gitazure.json configuration file in the current directory for configurable options."
-write-host
 
 # Final instructions
 
