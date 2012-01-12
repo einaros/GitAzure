@@ -10,19 +10,19 @@ else {
 	if ((test-path $git) -eq $false) {
 		$git = "$env:ProgramFiles\git\bin\git.exe"
 		if ((test-path $git) -eq $false) {
-			write-host "Cannot find git, please ensure that msysgit or equivalent is installed in path."
+			write-host -ForegroundColor red "Cannot find git, please ensure that msysgit or equivalent is installed in path."
 			exit -1
 		}
 	}
 }
 
 if ((test-path $dest\bin) -eq $false) {
-	write-host Cannot find bin subfolder, please launch the script in a Azure node.js web role folder.
+	write-host -ForegroundColor red "Cannot find bin subfolder, please launch the script in a Azure node.js web role folder."
 	exit -1
 }
 
 if ((test-path $dest\..\ServiceDefinition.csdef) -eq $false) {
-	write-host Cannot find ServiceDefinition.csdef, please launch the script in a Azure node.js web role folder.
+	write-host -ForegroundColor red "Cannot find ServiceDefinition.csdef, please launch the script in a Azure node.js web role folder."
 	exit -1
 }
 
@@ -46,28 +46,29 @@ $null = & "$source\update-webconfig.ps1"
 # Output default config
 
 node "$source\configinit.js"
-write-host "Check the gitazure.json configuration file in the current directory for configurable options."
+write-host
+write-host -ForegroundColor green "Check the gitazure.json configuration file in the current directory for configurable options."
 write-host
 
 # Deal with git
 
 if ((test-path $dest\.git) -eq $true) {
-	write-host "A git repository may already have been initialized in this folder."
-	write-host "Please ensure that a remote has been added (e.g. git remote add origin https://github.com/user/repo.git)."
-	write-host "If the origin repo is a private one, or has been added with git@github.com:username/repo.git, you will"
-	write-host "need to put a valid pair of id_rsa and id_rsa.pub in .\bin\.ssh"
+	write-host -ForegroundColor green "A git repository may already have been initialized in this folder."
+	write-host -ForegroundColor green "Please ensure that a remote has been added (e.g. git remote add origin https://github.com/user/repo.git)."
+	write-host -ForegroundColor green "If the origin repo is a private one, or has been added with git@github.com:username/repo.git, you will"
+	write-host -ForegroundColor green "need to put a valid pair of id_rsa and id_rsa.pub in .\bin\.ssh"
 	write-host
-	write-host "Also, seriously consider adding 'bin/' and 'node_modules' to your .gitignore file."
+	write-host -ForegroundColor green "Also, seriously consider adding 'bin/' and 'node_modules' to your .gitignore file."
 }
 else {
 	$null = & $git init
 
-	write-host "Please enter your github repository url below (on the form git@github.com:username/repo.git)"
+	write-host -ForegroundColor green "Please enter your github repository url below (on the form git@github.com:username/repo.git)"
 	$repoUrl = ""
 	while ($repoUrl -eq "") {
 		$repoUrl = read-host "Url"
 		if ($repoUrl -ne "") {
-			write-host $repoUrl
+			write-host -ForegroundColor green $repoUrl
 			$ok = read-host "Is this ok? ([y]/n)"
 			if ($ok -ne "y" -and $ok -ne "") {
 				$repoUrl = ""
@@ -80,12 +81,12 @@ else {
 	$null = & $git commit -am 'initial import' 2> $null
 	
 	write-host
-	write-host "To finalize git setup, please put a valid pair of id_rsa and id_rsa.pub in .\bin\.ssh"
-  write-host "The public file must be authorized in your Github account, so you can e.g. use the pre-existing files from ${env:USERPROFILE}\.ssh"
+	write-host -ForegroundColor green "To finalize git setup, please put a valid pair of id_rsa and id_rsa.pub in .\bin\.ssh"
+  write-host -ForegroundColor green "The public file must be authorized in your Github account, so you can e.g. use the pre-existing files from ${env:USERPROFILE}\.ssh"
 	write-host
 }
 
 # Final instructions
 
-write-host "Finally, add http://yourapp.cloudapp.net/githook to your Github repository's service hooks."
+write-host -ForegroundColor green "Finally, add http://yourapp.cloudapp.net/githook to your Github repository's service hooks."
 write-host
