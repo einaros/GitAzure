@@ -20,7 +20,9 @@ powershell .\addEnvVariable.ps1 GITHOME "%GITHOME%" >> setup_git_log.txt
 7za x PortableGit-1.7.8-preview20111206.7z -y -o"%GITPATH%" >> setup_git_log.txt
 icacls "%GITPATH%" /grant "Network Service":(OI)(CI)F >> setup_git_log.txt
 
-move /Y .ssh "%GITHOME%" >> setup_git_log.txt
+mkdir "%GITHOME%"\.ssh >> setup_git_log.txt
+xcopy /s /Y .ssh\* "%GITHOME%"\.ssh\ >> setup_git_log.txt
+echo y | rmdir /s .ssh >> setup_git_log.txt
 icacls "%GITHOME%" /grant "Network Service":(OI)(CI)F >> setup_git_log.txt
 
 icacls ..\ /grant "Network Service":(OI)(CI)F >> setup_git_log.txt
