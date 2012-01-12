@@ -23,7 +23,7 @@ Step by step creating an application:
   9. As noted, put a valid Github id_rsa and id_rsa.pub keypair in WebRole1\bin\.ssh, e.g. by copying pre-existing from $env:USERPROFILE\\.ssh
   10. In git bash within the WebRole1 folder, do `git commit -am 'initial'` then `git push -u origin master`
   11. `Publish-AzureService`; this will take roughly 10 minutes.
-  12. Add http://yoursite.cloudapp.com/githook to the service hooks of your github repository.
+  12. Add http://yoursite.cloudapp.net/githook to the service hooks of your github repository.
 
 At this point you should be able to make changes to the code in the repository, and publish updates to your Azure application by pushing to Github. That includes writing code on other platforms than Windows.
 
