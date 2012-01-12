@@ -30,3 +30,9 @@ GitAzure also supports installing npm modules, and will execute `npm install` on
 Some settings are available within your web role's gitazure.json config file, which among other things allows you to restrict application updates to a specific branch (e.g. 'azure').
 
 More to come.
+
+## Todo ##
+
+* Deal with forced pushed, e.g. by replacing the `git pull` call with a `git fetch origin && git reset origin/branch` combo.
+* Expand the lib/gitazure.js test case. Verify, using sample service hook postdata, that the correct commands are being run.
+* Consider preserving the initially published web.config, e.g. by copying Web.cloud.config to Web.config in case of a change to either.
