@@ -17,7 +17,7 @@ $ns.AddNamespace("e", "http://schemas.microsoft.com/ServiceHosting/2008/10/Servi
 
 if ($xml.SelectNodes("//e:Task[@commandLine='setup_git.cmd']", $ns).Count -le 0) {
 	$node = $xml.SelectSingleNode("//e:Startup", $ns)
-	$node.AppendChild((getXmlNode("<Task commandLine=""setup_git.cmd"" executionContext=""elevated""><Environment><Variable name=""EMULATED""><RoleInstanceValue xpath=""/RoleEnvironment/Deployment/@emulated"" /></Variable><Variable name=""GITPATH""><RoleInstanceValue xpath=""/RoleEnvironment/CurrentInstance/LocalResources/LocalResource[@name='Git']/@path"" /></Variable></Environment></Task>")))
+	$node.AppendChild((getXmlNode("<Task commandLine=""setup_git.cmd"" executionContext=""elevated""><Environment><Variable name=""EMULATED""><RoleInstanceValue xpath=""/RoleEnvironment/Deployment/@emulated"" /></Variable><Variable name=""GITPATH""><RoleInstanceValue xpath=""/RoleEnvironment/CurrentInstance/LocalResources/LocalResource[@name='Git']/@path"" /></Variable><Variable name=""GITHOME""><RoleInstanceValue xpath=""/RoleEnvironment/CurrentInstance/LocalResources/LocalResource[@name='GitHome']/@path"" /></Variable></Environment></Task>")))
 }
 
 if ($xml.SelectNodes("//e:Task[@commandLine='install_nodemodules.cmd']", $ns).Count -le 0) {
@@ -33,4 +33,14 @@ if ($xml.SelectNodes("//e:LocalStorage[@name='Git']", $ns).Count -le 0) {
 	}
 	$node.AppendChild((getXmlNode("<LocalStorage name=""Git"" sizeInMB=""1000"" />")))
 }
+
+if ($xml.SelectNodes("//e:LocalStorage[@name='GitHome']", $ns).Count -le 0) {
+	$node = $xml.SelectSingleNode("//e:LocalResources", $ns)
+	if ($node -eq $null) {
+		$node = $xml.SelectSingleNode("//e:Startup", $ns)
+		$node = $node.ParentNode.InsertAfter((getXmlNode("<LocalResources />")), $node)
+	}
+	$node.AppendChild((getXmlNode("<LocalStorage name=""GitHome"" sizeInMB=""10"" />")))
+}
+
 $xml.Save((Get-Location).Path + "\..\ServiceDefinition.csdef")
