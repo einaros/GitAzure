@@ -2,6 +2,8 @@
 
 Github hook for node.js apps hosted in Microsoft Azure.
 
+The goal of this project is to provide a source-control guided deployment procedure for Azure apps. After initial deployment using the Azure tools, subsequent deployments should be cross-platform.
+
 A rather terribly cropped first screencast, of GitAzure used to publish updates from OS X to Azure, can be found at http://screencast.com/t/Dj4ilALj.
 
 ## Creating a node.js application from scratch, hosted in Azure, source-controlled by Github. ##
