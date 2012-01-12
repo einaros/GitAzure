@@ -60,7 +60,7 @@ if ((test-path $dest\.git) -eq $true) {
 	write-host "Also, seriously consider adding 'bin/' and 'node_modules' to your .gitignore file."
 }
 else {
-	& $git init
+	$null = & $git init
 
 	write-host "Please enter your github repository url below (on the form git@github.com:username/repo.git)"
 	$repoUrl = ""
