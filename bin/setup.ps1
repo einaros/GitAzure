@@ -76,8 +76,8 @@ else {
 	}
 	& $git remote add origin $repoUrl
 	[io.file]::AppendAllText(".gitignore", "`nbin/`nnode_modules/`n", [text.encoding]::ascii)
-	$null = & $git add .
-	$null = & $git commit -am 'initial import'
+	$null = & $git add . 2> $null
+	$null = & $git commit -am 'initial import' 2> $null
 	
 	write-host
 	write-host "To finalize git setup, please put a valid pair of id_rsa and id_rsa.pub in .\bin\.ssh"
