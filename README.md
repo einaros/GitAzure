@@ -38,3 +38,5 @@ More to come.
 * Deal with forced pushed, e.g. by replacing the `git pull` call with a `git fetch origin && git reset origin/branch` combo.
 * Expand the lib/gitazure.js test case. Verify, using sample service hook postdata, that the correct commands are being run.
 * Consider preserving the initially published web.config, e.g. by copying Web.cloud.config to Web.config in case of a change to either.
+* Move published .ssh folder out of bin/. Deploy securely to the initialized LocalStorage.
+* Make polling / service bus solution for deploying to load balanced apps.
