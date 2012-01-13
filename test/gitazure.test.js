@@ -169,5 +169,38 @@ describe('GitAzure', function() {
         })
       });
     });
+
+    it('touches gitazure\'s server.js for gitazure.json update', function(done) {
+      var srv = util.makeServer(++port, function() {
+        var hook = GitAzure.listen(srv, { repoUrl: 'https://github.com/einaros/Test', branch: 'foobar' });
+        var payload = {
+          repository: {
+            url: 'https://github.com/einaros/Test'
+          },
+          ref: 'refs/heads/foobar',
+          commits: [
+            { modified: [ 'gitazure.json' ] } 
+          ]
+        }
+
+        child_proc.spawn = function(command, args) {
+          var proc = util.fakeSpawn();
+          process.nextTick(function() { proc.emit('exit', 0); });
+          return proc;
+        }
+        var utimesOrder = [];
+        fs.utimesSync = function(path) {
+          utimesOrder.push(path);
+        }
+
+        util.request(port, '/githook', 'payload=' + encodeURIComponent(JSON.stringify(payload)), function (data) {
+          utimesOrder.length.should.eql(2);
+          utimesOrder[1].should.match(/GitAzure\/lib\/\.\.\/server.js$/);
+          srv.close();
+          done();
+        })
+      });
+    });
+
   });
 });
