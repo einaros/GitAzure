@@ -35,7 +35,7 @@ More to come.
 
 ## Important ##
 
-Before pushing to a public repository, please make sure that no sensitive data is included. Such data includes Web.cloud.config files with e.g. storage keys in it.
+Before pushing to a public repository, please make sure that no sensitive data is included. Such data includes Web.cloud.config files with e.g. storage keys. The default Web.cloud.config does not contain storage keys or anything else sensitive, so the procedure above is safe. Should you customize your setup in any way, please make sure to either make your repository private, or add the config files to your `.gitignore`.
 
 ## Todo ##
 
