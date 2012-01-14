@@ -20,8 +20,8 @@ Step by step creating an application:
   6. `cd WebRole1`
   7. `Enable-AzureRemoteDesktop`
   8. `gitazure.cmd`; follow the instructions.
-  9. As noted, put a valid Github id_rsa and id_rsa.pub keypair in WebRole1\bin\.ssh, e.g. by copying pre-existing from $env:USERPROFILE\\.ssh
-  10. In git bash within the WebRole1 folder, do `git push -u origin master`
+  9. As noted, put a valid Github id_rsa and id_rsa.pub keypair in WebRole1\bin\.ssh, e.g. by copying pre-existing from `$env:USERPROFILE\\.ssh`. **Note:** The private key cannot be passphrase protected.
+  10. `git push -u origin master`
   11. `Publish-AzureService`; this will take roughly 10 minutes.
   12. Add http://yoursite.cloudapp.net/githook to the service hooks of your github repository.
 
