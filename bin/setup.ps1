@@ -54,11 +54,12 @@ write-host
 
 if ((test-path $dest\.git) -eq $true) {
 	write-host -ForegroundColor green "A git repository may already have been initialized in this folder."
-	write-host -ForegroundColor green "Please ensure that a remote has been added (e.g. git remote add origin https://github.com/user/repo.git)."
-	write-host -ForegroundColor green "If the origin repo is a private one, or has been added with git@github.com:username/repo.git, you will"
-	write-host -ForegroundColor green "need to put a valid pair of id_rsa and id_rsa.pub in .\bin\.ssh"
+	write-host -ForegroundColor green "Please ensure that a remote has been added (e.g. git remote add origin git@github.com:username/repo.git)"
+	write-host -ForegroundColor green "You will also need to put a valid pair of non-passphrase protected id_rsa and id_rsa.pub in .\bin\.ssh"
 	write-host
 	write-host -ForegroundColor green "Also, seriously consider adding 'bin/' and 'node_modules' to your .gitignore file."
+	[io.file]::AppendAllText("bin/.gitignore", "`n.ssh/`n", [text.encoding]::ascii)
+	$null = & $git add bin/.gitignore 2> $null
 }
 else {
 	$null = & $git init
@@ -76,12 +77,14 @@ else {
 		}
 	}
 	& $git remote add origin $repoUrl
+
 	[io.file]::AppendAllText(".gitignore", "`nbin/`nnode_modules/`n", [text.encoding]::ascii)
+	[io.file]::AppendAllText("bin/.gitignore", "`n.ssh/`n", [text.encoding]::ascii)
 	$null = & $git add . 2> $null
 	$null = & $git commit -am 'initial import' 2> $null
 	
 	write-host
-	write-host -ForegroundColor green "To finalize git setup, please put a valid pair of id_rsa and id_rsa.pub in .\bin\.ssh"
+	write-host -ForegroundColor green "To finalize git setup, please put a valid pair of non-passphrase protected id_rsa and id_rsa.pub in .\bin\.ssh"
   write-host -ForegroundColor green "The public file must be authorized in your Github account, so you can e.g. use the pre-existing files from ${env:USERPROFILE}\.ssh"
 	write-host
 }
