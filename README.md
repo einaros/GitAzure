@@ -39,7 +39,7 @@ Before pushing to a public repository, please make sure that no sensitive data i
 
 ## Todo ##
 
-* Deal with forced pushed, e.g. by replacing the `git pull` call with a `git fetch origin && git reset origin/branch` combo.
 * Consider preserving the initially published web.config, e.g. by copying Web.cloud.config to Web.config in case of a change to either.
-* Move published .ssh folder out of bin/. Deploy securely to the initialized LocalStorage.
 * Make polling / service bus solution for deploying to load balanced apps.
+* Ensure that update is attempted on application startup -- but prevent it from flooding on e.g. application crash.
+
