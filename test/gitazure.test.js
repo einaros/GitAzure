@@ -110,8 +110,8 @@ describe('GitAzure', function() {
         },
         ref: 'refs/heads/azure',
         commits: [
-          { modified: [ 'foo' ] }, 
-          { modified: [ 'bar' ] }, 
+          { modified: [ 'foo' ] },
+          { modified: [ 'bar' ] },
         ]
       }
 
@@ -144,8 +144,8 @@ describe('GitAzure', function() {
         },
         ref: 'refs/heads/azure',
         commits: [
-          { modified: [ 'foo' ] }, 
-          { modified: [ 'package.json' ] }, 
+          { modified: [ 'foo' ] },
+          { modified: [ 'package.json' ] },
         ]
       }
 
@@ -180,7 +180,7 @@ describe('GitAzure', function() {
         },
         ref: 'refs/heads/foobar',
         commits: [
-          { modified: [ 'gitazure.json' ] } 
+          { modified: [ 'gitazure.json' ] }
         ]
       }
 
@@ -213,8 +213,8 @@ describe('GitAzure', function() {
           },
           ref: 'refs/heads/azure',
           commits: [
-            { modified: [ 'foo' ] }, 
-            { modified: [ 'package.json' ] }, 
+            { modified: [ 'foo' ] },
+            { modified: [ 'package.json' ] },
           ]
         }
 
@@ -248,8 +248,8 @@ describe('GitAzure', function() {
           },
           ref: 'refs/heads/master',
           commits: [
-            { modified: [ 'foo' ] }, 
-            { modified: [ 'package.json' ] }, 
+            { modified: [ 'foo' ] },
+            { modified: [ 'package.json' ] },
           ]
         }
 
@@ -271,6 +271,6 @@ describe('GitAzure', function() {
           done();
         })
       });
-    });      
+    });
   });
 });
