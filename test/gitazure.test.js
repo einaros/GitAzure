@@ -12,7 +12,7 @@ describe('GitAzure', function() {
   beforeEach(function(){
     child_proc.spawn = originalSpawn;
     fs.utimesSync = originalUtimesSync;
-  }) 
+  });
 
   it('leaves other requests alone', function(done) {
     var srv = util.makeServer(++port, function() {
