@@ -6,7 +6,7 @@ function getXmlNode($str) {
 }
 if ($xml.SelectNodes("//system.webServer/handlers/add[@name='iisnodeGitAzure']").Count -le 0) {
 	$node = $xml.SelectSingleNode("//system.webServer/handlers")
-	$node.AppendChild((getXmlNode("<add name=""iisnodeGitAzure"" path=""node_modules\GitAzure\server.js"" verb=""*"" modules=""iisnode"" />")))
+	$node.AppendChild((getXmlNode("<add name=""iisnodeGitAzure"" maxProcessCountPerApplication=""1"" path=""node_modules\GitAzure\server.js"" verb=""*"" modules=""iisnode"" />")))
 }
 if ($xml.SelectNodes("//rewrite/rules/rule[@name='GitAzure']").Count -le 0) {
 	$node = $xml.SelectSingleNode("//rewrite/rules")
