@@ -25,6 +25,6 @@ if (typeof deps == 'undefined') {
 
 var depKeys = Object.keys(deps);
 if (depKeys.indexOf('GitAzure') == -1) {
-  deps.GitAzure = '0.0.5';
+  deps.GitAzure = '0.0.6';
   fs.writeFileSync('package.json', JSON.stringify(package, null, 2));
 }
