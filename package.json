@@ -2,7 +2,7 @@
   "author": "Einar Otto Stangvik <einaros@gmail.com> (http://github.com/einaros)",
   "name": "GitAzure",
   "description": "Github hook for node.js apps hosted in Microsoft Azure.",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "bin": {
     "gitazure": "./bin/gitazure.cmd"
   },
