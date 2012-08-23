@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/einaros/GitAzure.png)](http://travis-ci.org/einaros/GitAzure)
 # GitAzure #
 
 Github hook for node.js apps hosted in Microsoft Azure.
